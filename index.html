@@ -1,0 +1,71 @@
+<title>나만의 덕질방</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="style.css">
+
+<header class="top">
+  <h1>나만의 덕질방</h1>
+  <div class="wallet" title="보유 코인">
+    <span class="coin" aria-hidden="true"></span>
+    <span id="coins">0</span>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="stage" aria-label="내 방">
+    <canvas id="room" width="640" height="500"></canvas>
+    <div id="tip" class="tip" hidden></div>
+  </section>
+
+  <aside class="panel">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="room" aria-selected="true">내 방</button>
+      <button type="button" role="tab" data-tab="shop" aria-selected="false">상점</button>
+    </div>
+
+    <div id="tab-room" role="tabpanel">
+      <p class="hint">항목마다 방에 놓을 디자인을 골라요. <b>?</b> 칸은 뽑기에서 얻을 수 있어요.</p>
+      <div id="inventory"></div>
+      <div class="reset">
+        <button type="button" id="reset" class="link">처음부터 다시 하기</button>
+        <div id="reset-confirm" class="reset-confirm" hidden>
+          <span>코인과 아이템이 모두 초기화돼요.</span>
+          <button type="button" id="reset-yes">초기화</button>
+          <button type="button" id="reset-no">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-shop" role="tabpanel" hidden>
+      <div class="charge">
+        <div>
+          <b>코인 충전</b>
+          <small>테스트용 · 실제 결제는 되지 않아요</small>
+        </div>
+        <div class="charge-btns">
+          <button type="button" data-charge="500">+500</button>
+          <button type="button" data-charge="3000">+3,000</button>
+        </div>
+      </div>
+      <div id="cat-tabs" class="cat-tabs"></div>
+      <div id="gachas"></div>
+    </div>
+  </aside>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title"></h3>
+    <div id="results" class="results"></div>
+    <p id="modal-sum" class="modal-sum"></p>
+    <button type="button" id="modal-close" class="primary">방에서 확인하기</button>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="render.js"></script>
+<script src="room.js"></script>
+<script src="items.js"></script>
+<script src="main.js"></script>
