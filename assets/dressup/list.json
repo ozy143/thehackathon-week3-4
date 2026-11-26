@@ -1,0 +1,65 @@
+[
+  {
+    "id": "char_01_black_bob",
+    "name": "검은 단발",
+    "type": "character",
+    "rarity": "base",
+    "file": "characters/char_01_black_bob.png"
+  },
+  {
+    "id": "char_02_pink_long",
+    "name": "분홍 긴 생머리",
+    "type": "character",
+    "rarity": "base",
+    "file": "characters/char_02_pink_long.png"
+  },
+  {
+    "id": "char_03_brown_wavy",
+    "name": "갈색 웨이브",
+    "type": "character",
+    "rarity": "base",
+    "file": "characters/char_03_brown_wavy.png"
+  },
+  {
+    "id": "outfit_default_01_tshirt_shorts",
+    "name": "흰티와 반바지",
+    "type": "outfit",
+    "rarity": "default",
+    "file": "outfits_default/outfit_default_01_tshirt_shorts.png"
+  },
+  {
+    "id": "outfit_normal_01_onepiece",
+    "name": "기본 원피스",
+    "type": "outfit",
+    "rarity": "normal",
+    "file": "outfits_normal/outfit_normal_01_onepiece.png"
+  },
+  {
+    "id": "outfit_normal_02_pajama",
+    "name": "파자마",
+    "type": "outfit",
+    "rarity": "normal",
+    "file": "outfits_normal/outfit_normal_02_pajama.png"
+  },
+  {
+    "id": "outfit_normal_03_street",
+    "name": "스트릿패션",
+    "type": "outfit",
+    "rarity": "normal",
+    "file": "outfits_normal/outfit_normal_03_street.png"
+  },
+  {
+    "id": "outfit_legendary_01_stage",
+    "name": "무대의상 1",
+    "type": "outfit",
+    "rarity": "legendary",
+    "file": "outfits_legendary/outfit_legendary_01_stage.png"
+  },
+  {
+    "id": "outfit_legendary_02_stage",
+    "name": "무대의상 2",
+    "type": "outfit",
+    "rarity": "legendary",
+    "file": "outfits_legendary/outfit_legendary_02_stage.png"
+  }
+]

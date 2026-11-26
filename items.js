@@ -6,8 +6,9 @@
 
 const CATEGORIES = [
   { id: 'interior', name: '인테리어', desc: '방을 채우는 가구와 생활 소품' },
-  { id: 'character', name: '캐릭터', desc: '준비 중이에요', soon: true },
+  { id: 'character', name: '캐릭터', desc: '당신의 최애를 꾸미세요!' },
   { id: 'goods', name: '아이돌 굿즈', desc: '최애를 위한 덕질 굿즈' },
+  { id: 'music', name: '음악', desc: 'CD 플레이어로 듣는 덕질방 노래' },
 ];
 
 // 방에 놓이는 순서이기도 합니다.
@@ -707,6 +708,59 @@ function neonPreview(r, id) {
   r.box(5.4, -0.1, 42, 9.4, 0, 84, (x, y, z, face) =>
     face === 'py' ? wallInterior(x, z, [], [fn]) : C.borderSide, id);
 }
+
+// ─────────────────────────────────────────────
+// 캐릭터 꾸미기 (assets/dressup)
+//  캐릭터 그림 위에 같은 크기(1024×1536)의 투명 의상 그림을 겹쳐 입힙니다.
+//  처음 들어올 때 최애 한 명을 무료로 고르고, 다른 캐릭터는 코인으로 데려옵니다.
+//  기본 옷은 뽑기 없이 입고 있고, 일상복은 기본 뽑기, 무대의상은 스페셜 뽑기에서 나옵니다.
+// ─────────────────────────────────────────────
+const DRESSUP_DIR = 'assets/dressup/';
+const CHARACTER_PRICE = 800;
+
+const CHARACTERS = [
+  { id: 'char_01_black_bob', name: '윈터', img: 'characters/char_01_black_bob.png' },
+  { id: 'char_02_pink_long', name: '지젤', img: 'characters/char_02_pink_long.png' },
+  { id: 'char_03_brown_wavy', name: '카리나', img: 'characters/char_03_brown_wavy.png' },
+];
+
+const OUTFITS = [
+  {
+    id: 'outfit_default_01_tshirt_shorts', type: 'outfit', tier: 'base',
+    name: '흰티와 반바지', desc: '처음부터 입고 있는 편한 기본 옷',
+    img: 'outfits_default/outfit_default_01_tshirt_shorts.png',
+  },
+  {
+    id: 'outfit_normal_01_onepiece', type: 'outfit', tier: 'basic', rarity: 'common',
+    name: '기본 원피스', desc: '하얀 카라가 달린 하늘색 원피스',
+    img: 'outfits_normal/outfit_normal_01_onepiece.png',
+  },
+  {
+    id: 'outfit_normal_02_pajama', type: 'outfit', tier: 'basic', rarity: 'common',
+    name: '파자마', desc: '방에서 뒹굴기 좋은 포근한 파자마',
+    img: 'outfits_normal/outfit_normal_02_pajama.png',
+  },
+  {
+    id: 'outfit_normal_03_street', type: 'outfit', tier: 'basic', rarity: 'common',
+    name: '스트릿패션', desc: '형광 라인 후드 집업과 카고 팬츠',
+    img: 'outfits_normal/outfit_normal_03_street.png',
+  },
+  {
+    id: 'outfit_legendary_01_stage', type: 'outfit', tier: 'special', rarity: 'legend',
+    name: '무대의상 1', desc: '금빛 리본과 프릴로 꾸민 데뷔 무대 의상',
+    img: 'outfits_legendary/outfit_legendary_01_stage.png',
+  },
+  {
+    id: 'outfit_legendary_02_stage', type: 'outfit', tier: 'special', rarity: 'legend',
+    name: '무대의상 2', desc: '조명 아래에서 빛나는 특별한 무대 의상',
+    img: 'outfits_legendary/outfit_legendary_02_stage.png',
+  },
+];
+
+const DEFAULT_CHARACTER = CHARACTERS[0].id;
+const DEFAULT_OUTFIT = OUTFITS.find((o) => o.tier === 'base').id;
+const CHARACTER_BY_ID = Object.fromEntries(CHARACTERS.map((c) => [c.id, c]));
+const OUTFIT_BY_ID = Object.fromEntries(OUTFITS.map((o) => [o.id, o]));
 
 const ALL_ITEMS = [...BASE_ITEMS, ...VARIANTS];
 const ITEM_BY_ID = Object.fromEntries(ALL_ITEMS.map((it) => [it.id, it]));

@@ -1,43 +1,146 @@
-<title>나만의 덕질방</title>
+<title>픽마이돌</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="style.css">
 
+<!-- 아이콘 모음 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-room" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></symbol>
+  <symbol id="i-goods" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.8l-5.4 2.7 1.2-6-4.5-4.2 6.1-.7z"/></symbol>
+  <symbol id="i-closet" viewBox="0 0 24 24"><path d="M10 5a2 2 0 1 1 2 2v2"/><path d="M12 9 3.4 16.3c-.7.6-.3 1.7.6 1.7h16c.9 0 1.3-1.1.6-1.7z"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="M5 8h14l-1.2 13H6.2z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></symbol>
+  <symbol id="i-friends" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.8a3.2 3.2 0 0 1 0 6.4"/><path d="M18 14.6c2 .7 3.2 2.5 3.6 5.4"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+</svg>
+
+<!-- 입장 화면 -->
+<div id="splash" class="splash">
+  <div class="splash-sparkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="splash-inner">
+    <p class="splash-eyebrow">MY IDOL ROOM GAME</p>
+    <h1 class="logo logo-xl"><span class="logo-en">PICK MY IDOL</span><span class="logo-ko">픽마이돌</span></h1>
+    <p class="splash-tag">최애를 뽑고, 꾸미고, 친구에게 자랑하세요</p>
+    <button type="button" id="enter" class="btn-enter">입장하기</button>
+  </div>
+</div>
+
 <header class="top">
-  <h1>나만의 덕질방</h1>
-  <div class="wallet" title="보유 코인">
-    <span class="coin" aria-hidden="true"></span>
-    <span id="coins">0</span>
+  <a class="brand" href="#" aria-label="픽마이돌">
+    <span class="logo logo-sm"><span class="logo-en">PICK MY IDOL</span><span class="logo-ko">픽마이돌</span></span>
+    <span id="room-owner" class="brand-sub"></span>
+  </a>
+  <div class="top-actions">
+    <button type="button" id="open-friends" class="pill-btn">
+      <svg class="ico"><use href="#i-friends"/></svg><span>친구</span><b id="friend-count" class="pill-count">0</b>
+    </button>
+    <div class="wallet" title="보유 코인">
+      <span class="coin" aria-hidden="true"></span>
+      <span id="coins">0</span>
+    </div>
   </div>
 </header>
 
 <main class="layout">
-  <section class="stage" aria-label="내 방">
-    <canvas id="room" width="640" height="500"></canvas>
-    <div id="tip" class="tip" hidden></div>
+  <section class="stage" aria-label="방">
+    <div class="stage-frame">
+      <div class="stage-bar">
+        <span id="room-label" class="room-label"></span>
+        <div id="visit-bar" class="visit-bar" hidden>
+          <span id="visit-text"></span>
+          <button type="button" id="visit-home"><svg class="ico"><use href="#i-home"/></svg>내 방으로</button>
+        </div>
+        <span id="now-playing" class="now-playing" hidden></span>
+      </div>
+      <div class="room-wrap">
+        <canvas id="room" width="640" height="500"></canvas>
+        <!-- 파일로 바로 열어 그림 픽셀을 읽을 수 없을 때만 쓰는 최애 표시 -->
+        <button type="button" id="room-idol" class="room-idol" hidden></button>
+      </div>
+      <div id="tip" class="tip" hidden></div>
+    </div>
   </section>
 
   <aside class="panel">
-    <div class="tabs" role="tablist">
-      <button type="button" role="tab" data-tab="room" aria-selected="true">내 방</button>
-      <button type="button" role="tab" data-tab="shop" aria-selected="false">상점</button>
-    </div>
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="room" aria-selected="true"><svg class="ico"><use href="#i-room"/></svg>내 방</button>
+      <button type="button" role="tab" data-tab="goods" aria-selected="false"><svg class="ico"><use href="#i-goods"/></svg>굿즈</button>
+      <button type="button" role="tab" data-tab="closet" aria-selected="false"><svg class="ico"><use href="#i-closet"/></svg>옷장</button>
+      <button type="button" role="tab" data-tab="music" aria-selected="false"><svg class="ico"><use href="#i-music"/></svg>음악</button>
+      <button type="button" role="tab" data-tab="shop" aria-selected="false"><svg class="ico"><use href="#i-shop"/></svg>상점</button>
+    </nav>
 
-    <div id="tab-room" role="tabpanel">
-      <p class="hint">항목마다 방에 놓을 디자인을 골라요. <b>?</b> 칸은 뽑기에서 얻을 수 있어요.</p>
-      <div id="inventory"></div>
+    <div id="tab-room" role="tabpanel" class="tabpanel">
+      <header class="panel-head">
+        <div><span class="eyebrow">MY ROOM</span><h2>내 방 꾸미기</h2><p>가구를 골라 나만의 방을 완성해요</p></div>
+        <span id="stat-room" class="stat"></span>
+      </header>
+      <div id="inv-interior"></div>
       <div class="reset">
         <button type="button" id="reset" class="link">처음부터 다시 하기</button>
         <div id="reset-confirm" class="reset-confirm" hidden>
-          <span>코인과 아이템이 모두 초기화돼요.</span>
+          <span>닉네임, 최애, 친구, 코인과 아이템이 모두 초기화돼요.</span>
           <button type="button" id="reset-yes">초기화</button>
           <button type="button" id="reset-no">취소</button>
         </div>
       </div>
     </div>
 
-    <div id="tab-shop" role="tabpanel" hidden>
+    <div id="tab-goods" role="tabpanel" class="tabpanel" hidden>
+      <header class="panel-head">
+        <div><span class="eyebrow">GOODS</span><h2>굿즈 진열장</h2><p>장식장과 벽을 최애 굿즈로 채워요</p></div>
+        <span id="stat-goods" class="stat"></span>
+      </header>
+      <div id="inv-goods"></div>
+    </div>
+
+    <div id="tab-closet" role="tabpanel" class="tabpanel" hidden>
+      <header class="panel-head">
+        <div><span class="eyebrow">WARDROBE</span><h2>옷장</h2><p>옷을 갈아입히면 방에 있는 최애도 바로 바뀌어요</p></div>
+        <span id="stat-closet" class="stat"></span>
+      </header>
+      <figure class="idol-stage">
+        <div id="idol-figure" class="idol-figure"></div>
+        <figcaption id="idol-caption"></figcaption>
+      </figure>
+      <h3 class="group">내 최애</h3>
+      <div id="char-pick" class="char-pick"></div>
+      <h3 class="group">옷 고르기</h3>
+      <div id="closet" class="closet"></div>
+    </div>
+
+    <div id="tab-music" role="tabpanel" class="tabpanel" hidden>
+      <header class="panel-head">
+        <div><span class="eyebrow">MUSIC</span><h2>음악</h2><p>방 벽의 CD 플레이어를 눌러도 재생돼요</p></div>
+        <span id="stat-music" class="stat"></span>
+      </header>
+      <div class="player">
+        <span id="player-disc" class="song-thumb big"></span>
+        <div class="player-info">
+          <span class="eyebrow">NOW PLAYING</span>
+          <b id="player-title"></b>
+          <small id="player-desc"></small>
+          <div class="player-btns">
+            <button type="button" id="player-prev" aria-label="이전 곡">⏮</button>
+            <button type="button" id="player-toggle" class="play" aria-label="재생">▶</button>
+            <button type="button" id="player-next" aria-label="다음 곡">⏭</button>
+          </div>
+        </div>
+      </div>
+      <h3 class="group">내 CD</h3>
+      <div id="songs" class="song-list"></div>
+    </div>
+
+    <div id="tab-shop" role="tabpanel" class="tabpanel" hidden>
+      <header class="panel-head">
+        <div><span class="eyebrow">SHOP</span><h2>상점</h2><p>뽑기로 새 아이템을 모아요</p></div>
+        <span id="stat-shop" class="stat"></span>
+      </header>
       <div class="charge">
         <div>
           <b>코인 충전</b>
@@ -56,10 +159,66 @@
 
 <div id="modal" class="modal" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <span class="eyebrow">RESULT</span>
     <h3 id="modal-title"></h3>
     <div id="results" class="results"></div>
     <p id="modal-sum" class="modal-sum"></p>
     <button type="button" id="modal-close" class="primary">방에서 확인하기</button>
+  </div>
+</div>
+
+<!-- 친구 -->
+<div id="friends" class="modal" hidden>
+  <div class="modal-card friends-card" role="dialog" aria-modal="true" aria-labelledby="friends-title">
+    <button type="button" class="modal-x" id="friends-close" aria-label="닫기">✕</button>
+    <span class="eyebrow">FRIENDS</span>
+    <h3 id="friends-title">친구</h3>
+
+    <section class="fr-box">
+      <h4>내 친구 코드</h4>
+      <p class="fr-note">코드나 초대 링크를 친구에게 보내면 서로의 방에 놀러 갈 수 있어요. 방을 새로 꾸몄다면 다시 보내 주세요.</p>
+      <textarea id="my-code" class="code-box" readonly rows="2" aria-label="내 친구 코드"></textarea>
+      <div class="fr-btns">
+        <button type="button" id="copy-code" class="ghost-btn">코드 복사</button>
+        <button type="button" id="copy-link" class="ghost-btn">초대 링크 복사</button>
+      </div>
+    </section>
+
+    <form id="add-friend" class="fr-box">
+      <h4>친구 추가</h4>
+      <div class="fr-add">
+        <input id="friend-input" type="text" placeholder="친구 코드나 초대 링크를 붙여 넣어 주세요" autocomplete="off" aria-label="친구 코드">
+        <button type="submit" class="primary">추가</button>
+      </div>
+    </form>
+
+    <section class="fr-list-wrap">
+      <h4>내 친구 <span id="friend-count2"></span></h4>
+      <div id="friend-list" class="fr-list"></div>
+    </section>
+  </div>
+</div>
+
+<!-- 처음 들어올 때: 닉네임 → 최애 고르기 -->
+<div id="welcome" class="modal" hidden>
+  <div class="modal-card welcome-card" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <form id="step-name">
+      <span class="logo logo-md"><span class="logo-en">PICK MY IDOL</span><span class="logo-ko">픽마이돌</span></span>
+      <h3 id="welcome-title">반가워요! 닉네임을 알려 주세요</h3>
+      <p class="welcome-sub">닉네임은 방 이름과 친구 목록에 보여요.</p>
+      <input id="nickname" type="text" maxlength="12" placeholder="닉네임 (최대 12자)" autocomplete="nickname" required>
+      <button type="submit" class="primary">다음</button>
+    </form>
+    <form id="step-idol" hidden>
+      <span class="eyebrow">PICK YOUR IDOL</span>
+      <h3><span id="welcome-nick"></span>님의 최애를 골라 주세요</h3>
+      <p class="welcome-sub">처음 한 명은 무료예요. 다른 최애는 나중에 상점에서 데려올 수 있어요.</p>
+      <div id="idol-choices" class="idol-choices" role="radiogroup" aria-label="최애 고르기"></div>
+      <div class="welcome-btns">
+        <button type="button" id="welcome-back" class="link">닉네임 바꾸기</button>
+        <button type="submit" class="primary">이 최애와 시작하기</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -68,4 +227,5 @@
 <script src="render.js"></script>
 <script src="room.js"></script>
 <script src="items.js"></script>
+<script src="music.js"></script>
 <script src="main.js"></script>
